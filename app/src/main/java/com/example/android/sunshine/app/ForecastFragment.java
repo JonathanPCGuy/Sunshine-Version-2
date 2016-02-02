@@ -72,9 +72,21 @@ public class ForecastFragment extends Fragment {
          * Prepare the weather high/lows for presentation.
          */
         private String formatHighLows(double high, double low) {
+
+            high -=273.15;
+            low -=273.15;
+            String units = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(getString(R.string.pref_temp_units_key), getString(R.string.pref_temp_units_default_value));
+            if(units == getContext().getString(R.string.pref_temp_unit_value_imperial))
+            {
+                high = high * 1.8 + 32;
+                low = low * 1.8 + 32;
+
+            }
             // For presentation, assume the user doesn't care about tenths of a degree.
             long roundedHigh = Math.round(high);
             long roundedLow = Math.round(low);
+
+
 
             String highLowStr = roundedHigh + "/" + roundedLow;
             return highLowStr;
@@ -168,7 +180,7 @@ public class ForecastFragment extends Fragment {
                 mArrayAdapter.clear();
                 ArrayList<String> returnedData = new ArrayList<String>(Arrays.asList(strings));
                 for (String s : returnedData) {
-                    // this doesn't feel right...
+
                     mArrayAdapter.add(s);
                 }
             }
@@ -259,12 +271,7 @@ public class ForecastFragment extends Fragment {
         // note to self: below is not how it was done in example; they created a raw array and
         // shoved it in
         ArrayList<String> weekForecast = new ArrayList<>();
-        weekForecast.add("Today - Sunny - 88/63");
-        weekForecast.add("Tomorrow - Foggy - 70/46");
-        weekForecast.add("Weds - Cloudy - 72/63");
-        weekForecast.add("Thurs - Rainy - 64/51");
-        weekForecast.add("Fri - Foggy - 70/46");
-        weekForecast.add("Sat - Sunny - 76/68");
+
 
         mArrayAdapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.list_item_forecast,
@@ -284,6 +291,7 @@ public class ForecastFragment extends Fragment {
                 startActivity(detailIntent);
             }
         });
+        GetWeatherData();
         return rootView;
     }
 
@@ -293,13 +301,17 @@ public class ForecastFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    public void GetWeatherData() {
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
+        String targetLocation = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        fetchWeatherTask.execute(targetLocation);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-            String targetLocation = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-            fetchWeatherTask.execute(targetLocation);
+            GetWeatherData();
             return true;
         }
         return super.onOptionsItemSelected(item);

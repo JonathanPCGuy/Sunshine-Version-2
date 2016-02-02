@@ -4,4 +4,11 @@
         android:key="@string/pref_location_key"
         android:title="@string/pref_location_label"
         android:defaultValue="@string/pref_location_default"/>
+    <ListPreference android:entries="@array/pref_temp_units_keys"
+        android:key="@string/pref_temp_units_key"
+        android:entryValues="@array/pref_temp_units_values"
+        android:defaultValue="@string/pref_temp_units_default_value"
+        android:title="@string/pref_temp_units_label"
+        android:summary="%s"
+        />
 </PreferenceScreen>

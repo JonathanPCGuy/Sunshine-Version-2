@@ -9,4 +9,17 @@
     <string name="pref_location_label">Location</string>
     <string name="pref_location_key" translatable="false">location</string>
     <string name="pref_location_default" translatable="false">94623</string>
+    <string name="pref_temp_units_label">Temperature Units</string>
+    <string name="pref_temp_units_key" translatable="false">temp_units</string>
+    <string-array name="pref_temp_units_keys">
+        <item>Metric</item>
+        <item>Imperial</item>
+    </string-array>
+    <string-array name="pref_temp_units_values">
+        <item>metric</item>
+        <item>imperial</item>
+    </string-array>
+    <string name="pref_temp_unit_value_metric" translatable="false">metric</string>
+    <string name="pref_temp_unit_value_imperial" translatable="false">imperial</string>
+    <string name="pref_temp_units_default_value" translatable="false">metric</string>
 </resources>
